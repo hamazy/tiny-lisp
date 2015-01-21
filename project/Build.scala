@@ -22,6 +22,7 @@ object Dependencies {
   val scalatest = "org.scalatest" %% "scalatest" % "2.2.0" % "test"
   val pegdown = "org.pegdown" % "pegdown" % "1.4.2" % "test"
   val mockito = "org.mockito" % "mockito-core" % "1.9.5" % "test"
+  val parserCombinators = "org.scala-lang.modules" %% "scala-parser-combinators" % "1.0.3"
 
   val commonDeps = Seq(
     akkaActor,
@@ -31,7 +32,8 @@ object Dependencies {
     logback,
     scalatest,
     pegdown,
-    mockito
+    mockito,
+    parserCombinators
   )
 }
 
