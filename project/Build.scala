@@ -19,7 +19,7 @@ object Dependencies {
   val akkaTestkit = "com.typesafe.akka" %% "akka-testkit" % akkaVersion % "test"
   val scalaLogging = "com.typesafe.scala-logging" %% "scala-logging-slf4j" % "2.1.2"
   val logback = "ch.qos.logback" % "logback-classic" % "1.1.2"
-  val scalatest = "org.scalatest" %% "scalatest" % "2.2.0" % "test"
+  val scalatest = "org.scalatest" %% "scalatest" % "2.2.1" % "test"
   val pegdown = "org.pegdown" % "pegdown" % "1.4.2" % "test"
   val mockito = "org.mockito" % "mockito-core" % "1.9.5" % "test"
   val parserCombinators = "org.scala-lang.modules" %% "scala-parser-combinators" % "1.0.3"
