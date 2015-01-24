@@ -18,17 +18,23 @@ trait AtomEvaluator extends NumberEvaluator with SymbolEvaluator {
     def eval(atom: Atom): Try[Form] = atom match {
       case i: Integer ⇒ integerEvaluator.eval(i)
       case d: Double ⇒ doubleEvaluator.eval(d)
+      case s: Symbol ⇒ symbolEvaluator.eval(s)
+      case f: Function ⇒ evalToItself(f)
     }
   }
 }
 
-trait NumberEvaluator {
+trait NumberEvaluator extends SelfReturningEvaluator {
   implicit val integerEvaluator = new Evaluator[Integer] {
-    def eval(i: Integer): Try[Form] = Success(i)
+    def eval(i: Integer): Try[Form] = evalToItself(i)
   }
   implicit val doubleEvaluator = new Evaluator[Double] {
-    def eval(d: Double): Try[Form] = Success(d)
+    def eval(d: Double): Try[Form] = evalToItself(d)
   }
+}
+
+trait SelfReturningEvaluator {
+  def evalToItself(atom: Atom): Try[Form] = Success(atom)
 }
 
 trait SymbolEvaluator {
@@ -38,7 +44,6 @@ trait SymbolEvaluator {
       case other ⇒ Failure(new RuntimeException(s"Unbound symbol ${other.value}"))
     }
   }
-  // implicit val nilEvaluator: Evaluator[Nil] =  symbolEvaluator
 }
 
 trait FormsEvaluator extends AtomEvaluator {
@@ -72,6 +77,8 @@ trait FormsEvaluator extends AtomEvaluator {
         tryOfArgs.flatMap { args ⇒
           op.apply(args: _*)
         }
+      case (op: SpecialFormOperator) :: rest ⇒
+        op.apply(rest: _*)
       case other ⇒ Failure(new RuntimeException(s"Can't apply $other"))
     }
   }

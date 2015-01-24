@@ -19,5 +19,17 @@ case class Symbol(value: String) extends Atom
 object Nil extends Symbol("nil")
 
 abstract class Function extends Atom {
+  /**
+   * @param args Forms which are already evaluated
+   * @return evaluatend Form
+   */
+  def apply(args: Form*): Try[Form]
+}
+
+abstract class SpecialFormOperator extends Atom {
+  /**
+   * @param args Forms which are NOT evaluated yet.
+   * @return evaluatend Form
+   */
   def apply(args: Form*): Try[Form]
 }
