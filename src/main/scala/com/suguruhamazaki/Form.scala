@@ -25,7 +25,7 @@ abstract class Function extends Atom {
    * @param args Forms which are already evaluated
    * @return evaluatend Form
    */
-  def apply(args: Form*): Try[Form]
+  def apply(env: Map[Symbol, Form], args: Form*): Try[Form]
 }
 
 abstract class SpecialFormOperator extends Atom {
@@ -33,5 +33,5 @@ abstract class SpecialFormOperator extends Atom {
    * @param args Forms which are NOT evaluated yet.
    * @return evaluatend Form
    */
-  def apply(args: Form*): Try[Form]
+  def apply(env: Map[Symbol, Form], args: Form*): Try[Form]
 }

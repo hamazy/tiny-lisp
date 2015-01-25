@@ -4,11 +4,11 @@ import scala.util.{ Failure, Success, Try }
 
 object Plus extends Function {
   import scala.collection.immutable.Nil
-  def apply(args: Form*): Try[Form] = args match {
+  def apply(env: Map[Symbol, Form], args: Form*): Try[Form] = args match {
     case (last: Integer) :: Nil ⇒ Success(last)
     case (last: Double) :: Nil ⇒ Success(last)
     case Integer(head) :: rest ⇒
-      apply(rest: _*).flatMap {
+      apply(env, rest: _*).flatMap {
         _ match {
           case Integer(sum) ⇒ Success(Integer(head + sum))
           case Double(sum) ⇒ Success(Double(head + sum))
@@ -16,7 +16,7 @@ object Plus extends Function {
         }
       }
     case Double(head) :: rest ⇒
-      apply(rest: _*).flatMap {
+      apply(env, rest: _*).flatMap {
         _ match {
           case Integer(sum) ⇒ Success(Double(head + sum))
           case Double(sum) ⇒ Success(Double(head + sum))

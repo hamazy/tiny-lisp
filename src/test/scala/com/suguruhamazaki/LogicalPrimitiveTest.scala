@@ -13,7 +13,7 @@ class LogicalAndTest extends FlatSpec with GivenWhenThen with Matchers {
     val input = Forms(List(And_, Nil))
 
     When("evaluate it")
-    val actual = Evaluator.eval(input)
+    val actual = Evaluator.eval(input, Map[Symbol, Form]())
 
     Then("a Nil is returned")
     actual should be(Success(Nil))
@@ -25,7 +25,7 @@ class LogicalAndTest extends FlatSpec with GivenWhenThen with Matchers {
     val input = Forms(List(And_, Integer(123)))
 
     When("evaluate it")
-    val actual = Evaluator.eval(input)
+    val actual = Evaluator.eval(input, Map[Symbol, Form]())
 
     Then("a non-Nil is returned")
     actual shouldNot be(Success(Nil))
@@ -38,7 +38,7 @@ class LogicalAndTest extends FlatSpec with GivenWhenThen with Matchers {
     val input = Forms(List(And_, Nil, Nil, Nil))
 
     When("evaluate it")
-    val actual = Evaluator.eval(input)
+    val actual = Evaluator.eval(input, Map[Symbol, Form]())
 
     Then("a Nil is returned")
     actual should be(Success(Nil))
@@ -50,7 +50,7 @@ class LogicalAndTest extends FlatSpec with GivenWhenThen with Matchers {
     val input = Forms(List(And_, Nil, Integer(123), Nil))
 
     When("evaluate it")
-    val actual = Evaluator.eval(input)
+    val actual = Evaluator.eval(input, Map[Symbol, Form]())
 
     Then("a Nil is returned")
     actual should be(Success(Nil))
@@ -62,7 +62,7 @@ class LogicalAndTest extends FlatSpec with GivenWhenThen with Matchers {
     val input = Forms(List(And_, Plus, Integer(123), Double(1.23)))
 
     When("evaluate it")
-    val actual = Evaluator.eval(input)
+    val actual = Evaluator.eval(input, Map[Symbol, Form]())
 
     Then("a non-Nil is returned")
     actual shouldNot be(Success(Nil))
@@ -75,7 +75,7 @@ class LogicalAndTest extends FlatSpec with GivenWhenThen with Matchers {
     val input = Forms(List(And_, Plus, Integer(123), (Forms(List(And_, Integer(456))))))
 
     When("evaluate it")
-    val actual = Evaluator.eval(input)
+    val actual = Evaluator.eval(input, Map[Symbol, Form]())
 
     Then("a non-Nil is returned")
     actual shouldNot be(Success(Nil))
@@ -91,7 +91,7 @@ class LogicalNotTest extends FlatSpec with GivenWhenThen with Matchers {
     val input = Forms(List(Not, Integer(123)))
 
     When("evaluate it")
-    val actual = Evaluator.eval(input)
+    val actual = Evaluator.eval(input, Map[Symbol, Form]())
 
     Then("a Nil is returned")
     actual should be(Success(Nil))
@@ -103,7 +103,7 @@ class LogicalNotTest extends FlatSpec with GivenWhenThen with Matchers {
     val input = Forms(List(Not, Nil))
 
     When("evaluate it")
-    val actual = Evaluator.eval(input)
+    val actual = Evaluator.eval(input, Map[Symbol, Form]())
 
     Then("a Nil is returned")
     actual should be(Success(True))

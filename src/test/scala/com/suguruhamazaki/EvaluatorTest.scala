@@ -11,7 +11,7 @@ class EvaluatorTest extends FlatSpec with GivenWhenThen with Matchers {
     val input = Integer(123)
 
     When("evaluate it")
-    val actual = Evaluator.eval(input)
+    val actual = Evaluator.eval(input, Map[Symbol, Form]())
 
     Then("the Integer itself is returned")
     actual.get should be(input)
@@ -23,7 +23,7 @@ class EvaluatorTest extends FlatSpec with GivenWhenThen with Matchers {
     val input = Double(12.3)
 
     When("evaluate it")
-    val actual = Evaluator.eval(input)
+    val actual = Evaluator.eval(input, Map[Symbol, Form]())
 
     Then("the Double itself is returned")
     actual.get should be(input)
@@ -35,7 +35,7 @@ class EvaluatorTest extends FlatSpec with GivenWhenThen with Matchers {
     val input = Symbol("foo")
 
     When("evaluate it")
-    val actual = Evaluator.eval(input)
+    val actual = Evaluator.eval(input, Map[Symbol, Form]())
 
     Then("a failure is returned")
     actual shouldBe a[Failure[_]]
@@ -47,7 +47,7 @@ class EvaluatorTest extends FlatSpec with GivenWhenThen with Matchers {
     val input = Nil
 
     When("evaluate it")
-    val actual = Evaluator.eval(input: Atom)
+    val actual = Evaluator.eval(input: Atom, Map[Symbol, Form]())
 
     Then("Nil itself is returned")
     actual shouldBe (Success(Nil))
@@ -59,7 +59,7 @@ class EvaluatorTest extends FlatSpec with GivenWhenThen with Matchers {
     val input = Forms(List(Plus, Integer(2)))
 
     When("evaluate it")
-    val actual = Evaluator.eval(input)
+    val actual = Evaluator.eval(input, Map[Symbol, Form]())
 
     Then("the answer is returned")
     actual should be(Success(Integer(2)))
@@ -71,7 +71,7 @@ class EvaluatorTest extends FlatSpec with GivenWhenThen with Matchers {
     val input = Forms(List(Plus, Integer(2), Integer(3)))
 
     When("evaluate it")
-    val actual = Evaluator.eval(input)
+    val actual = Evaluator.eval(input, Map[Symbol, Form]())
 
     Then("the answer is returned")
     actual should be(Success(Integer(5)))
@@ -87,7 +87,7 @@ class EvaluatorTest extends FlatSpec with GivenWhenThen with Matchers {
     ))
 
     When("evaluate it")
-    val actual = Evaluator.eval(input)
+    val actual = Evaluator.eval(input, Map[Symbol, Form]())
 
     Then("the answer is returned")
     actual should be(Success(Integer(14)))
