@@ -16,10 +16,8 @@ trait FormEvaluator extends AtomEvaluator with FormsEvaluator
 trait AtomEvaluator extends NumberEvaluator with SymbolEvaluator {
   implicit val atomEvaluator = new Evaluator[Atom] {
     def eval(atom: Atom): Try[Form] = atom match {
-      case i: Integer ⇒ integerEvaluator.eval(i)
-      case d: Double ⇒ doubleEvaluator.eval(d)
       case s: Symbol ⇒ symbolEvaluator.eval(s)
-      case f: Function ⇒ evalToItself(f)
+      case other ⇒ evalToItself(other)
     }
   }
 }
@@ -40,7 +38,6 @@ trait SelfReturningEvaluator {
 trait SymbolEvaluator {
   implicit val symbolEvaluator = new Evaluator[Symbol] {
     def eval(s: Symbol): Try[Form] = s match {
-      case Nil ⇒ Success(Nil)
       case other ⇒ Failure(new RuntimeException(s"Unbound symbol ${other.value}"))
     }
   }

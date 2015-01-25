@@ -47,7 +47,7 @@ class EvaluatorTest extends FlatSpec with GivenWhenThen with Matchers {
     val input = Nil
 
     When("evaluate it")
-    val actual = Evaluator.eval(input: Symbol)
+    val actual = Evaluator.eval(input: Atom)
 
     Then("Nil itself is returned")
     actual shouldBe (Success(Nil))

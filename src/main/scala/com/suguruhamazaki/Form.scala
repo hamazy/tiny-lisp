@@ -16,7 +16,9 @@ case class Forms(forms: List[Form]) extends Form
 
 case class Symbol(value: String) extends Atom
 
-object Nil extends Symbol("nil")
+object Nil extends Atom
+
+object True extends Atom
 
 abstract class Function extends Atom {
   /**

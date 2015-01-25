@@ -1,7 +1,7 @@
 package com.suguruhamazaki
 
 import scala.collection.immutable.{ Nil => Empty }
-import scala.util.{ Success, Try }
+import scala.util.{ Failure, Success, Try }
 
 object And extends SpecialFormOperator {
   val nilOnlyIfNil: Form ⇒ Try[Form] = {
@@ -20,5 +20,13 @@ object And extends SpecialFormOperator {
       case Nil ⇒ Success(Nil)
       case other ⇒ apply(rest: _*)
     }
+  }
+}
+
+object Not extends Function {
+  def apply(args: Form*): Try[Form] = args match {
+    case Nil :: Empty ⇒ Success(True)
+    case other :: Empty ⇒ Success(Nil)
+    case other ⇒ Failure(new RuntimeException(s"Wrong number of arguments: ${other}"))
   }
 }

@@ -5,7 +5,7 @@ import scala.util.Success
 import scala.util.{ Failure, Success }
 import com.suguruhamazaki.{ And ⇒ And_ }
 
-class LogicalPrimitiveTest extends FlatSpec with GivenWhenThen with Matchers {
+class LogicalAndTest extends FlatSpec with GivenWhenThen with Matchers {
 
   "Evaluator" should "evaluate logical And of Nil" in {
 
@@ -80,5 +80,32 @@ class LogicalPrimitiveTest extends FlatSpec with GivenWhenThen with Matchers {
     Then("a non-Nil is returned")
     actual shouldNot be(Success(Nil))
     actual should be(Success(Integer(456)))
+  }
+}
+
+class LogicalNotTest extends FlatSpec with GivenWhenThen with Matchers {
+
+  "Evaluator" should "evaluate logical Not of a non-Nil" in {
+
+    Given("a list with a Not operator and a non-Nil")
+    val input = Forms(List(Not, Integer(123)))
+
+    When("evaluate it")
+    val actual = Evaluator.eval(input)
+
+    Then("a Nil is returned")
+    actual should be(Success(Nil))
+  }
+
+  it should "evaluate lagical Not of a Nil" in {
+
+    Given("a list with a Not operator and a Nil")
+    val input = Forms(List(Not, Nil))
+
+    When("evaluate it")
+    val actual = Evaluator.eval(input)
+
+    Then("a Nil is returned")
+    actual should be(Success(True))
   }
 }
