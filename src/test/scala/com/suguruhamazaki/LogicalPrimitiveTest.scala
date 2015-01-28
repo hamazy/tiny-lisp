@@ -1,9 +1,8 @@
 package com.suguruhamazaki
 
+import com.suguruhamazaki.{ And => And_ }
 import org.scalatest.{ FlatSpec, GivenWhenThen, Matchers }
 import scala.util.Success
-import scala.util.{ Failure, Success }
-import com.suguruhamazaki.{ And ⇒ And_ }
 
 class LogicalAndTest extends FlatSpec with GivenWhenThen with Matchers {
 
