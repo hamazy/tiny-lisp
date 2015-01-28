@@ -37,22 +37,24 @@ trait SelfReturningEvaluator {
 
 trait SymbolEvaluator {
   implicit val symbolEvaluator = new Evaluator[Symbol] {
-    def eval(s: Symbol, env: Map[Symbol, Form]): Try[Form] = s match {
-      case other ⇒ Failure(new RuntimeException(s"Unbound symbol ${other.value}"))
-    }
+    def eval(s: Symbol, env: Map[Symbol, Form]): Try[Form] =
+      env.get(s).map(Success(_)).getOrElse(Failure(new RuntimeException(s"Unbound symbol ${s}")))
   }
 }
 
 trait FormsEvaluator extends AtomEvaluator {
   import scala.collection.immutable.Nil
   implicit val formsEvaluator = new Evaluator[Forms] {
+    // evaluate a function with no argument
+    private def evalNoArgFunction(env: Map[Symbol, Form]): Form ⇒ Try[Form] = {
+      case f: Function ⇒ eval(Forms(List(f)), env)
+      case other ⇒ Failure(new RuntimeException(s"${other} is not a function."))
+    }
     def eval(forms: Forms, env: Map[Symbol, Form]): Try[Form] = forms.forms match {
       case (op: Symbol) :: Nil ⇒
-        Evaluator.eval(op, env) flatMap {
-          case f: Function ⇒ eval(Forms(List(f)), env)
-          case other ⇒ Failure(new RuntimeException(s"${other} is not a function."))
-        }
+        Evaluator.eval(op, env) flatMap (evalNoArgFunction(env))
       case (op: Function) :: Nil ⇒ op.apply(env)
+      case (forms: Forms) :: Nil ⇒ eval(forms, env).flatMap(evalNoArgFunction(env))
       case (op: Symbol) :: rest ⇒
         Evaluator.eval(op, env).flatMap {
           case opEvaluated ⇒ eval(Forms(opEvaluated :: rest), env)
@@ -74,6 +76,9 @@ trait FormsEvaluator extends AtomEvaluator {
         tryOfArgs.flatMap { args ⇒
           op.apply(env, args: _*)
         }
+      case (forms: Forms) :: rest ⇒ eval(forms, env).flatMap {
+        case opEvaluated ⇒ eval(Forms(opEvaluated :: rest), env)
+      }
       case (op: SpecialFormOperator) :: rest ⇒
         op.apply(env, rest: _*)
       case other ⇒ Failure(new RuntimeException(s"Can't evaluate $other"))

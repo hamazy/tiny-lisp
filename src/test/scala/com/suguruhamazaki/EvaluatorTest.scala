@@ -29,7 +29,7 @@ class EvaluatorTest extends FlatSpec with GivenWhenThen with Matchers {
     actual.get should be(input)
   }
 
-  it should "evaluate a symbol" in {
+  it should "evaluate an unbounded symbol" in {
 
     Given("a unbounded symbol")
     val input = Symbol("foo")
@@ -39,6 +39,18 @@ class EvaluatorTest extends FlatSpec with GivenWhenThen with Matchers {
 
     Then("a failure is returned")
     actual shouldBe a[Failure[_]]
+  }
+
+  it should "evaluate a bounded symbol" in {
+
+    Given("a unbounded symbol")
+    val input = Symbol("foo")
+
+    When("evaluate it")
+    val actual = Evaluator.eval(input, Map[Symbol, Form](Symbol("foo") → Integer(123)))
+
+    Then("the bound value is returned")
+    actual should be(Success(Integer(123)))
   }
 
   it should "evaluate a nil" in {
