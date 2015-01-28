@@ -50,7 +50,7 @@ trait FormsEvaluator extends AtomEvaluator {
       case (op: Symbol) :: Nil ⇒
         Evaluator.eval(op, env) flatMap {
           case f: Function ⇒ eval(Forms(List(f)), env)
-          case other ⇒ Failure(new RuntimeException(s"Can't apply $other"))
+          case other ⇒ Failure(new RuntimeException(s"${other} is not a function."))
         }
       case (op: Function) :: Nil ⇒ op.apply(env)
       case (op: Symbol) :: rest ⇒
@@ -76,7 +76,7 @@ trait FormsEvaluator extends AtomEvaluator {
         }
       case (op: SpecialFormOperator) :: rest ⇒
         op.apply(env, rest: _*)
-      case other ⇒ Failure(new RuntimeException(s"Can't apply $other"))
+      case other ⇒ Failure(new RuntimeException(s"Can't evaluate $other"))
     }
   }
 }
