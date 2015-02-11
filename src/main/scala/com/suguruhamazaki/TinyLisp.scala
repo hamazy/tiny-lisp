@@ -10,7 +10,8 @@ object TinyLisp extends Parsers with FormEvaluator {
       Symbol("=") → Equals,
       Symbol("and") → And,
       Symbol("not") → Not,
-      Symbol("lambda") → Lambda
+      Symbol("lambda") → Lambda,
+      Symbol("if") → If
     )
   def main(args: Array[String]): Unit = {
     val input = Source.stdin.mkString
