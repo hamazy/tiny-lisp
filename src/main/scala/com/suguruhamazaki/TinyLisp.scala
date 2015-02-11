@@ -6,7 +6,9 @@ object TinyLisp extends Parsers with FormEvaluator {
   def globalEnvironment: Map[Symbol, Form] =
     Map(
       Symbol("+") → Plus,
+      Symbol("-") → Minus,
       Symbol("*") → Multiply,
+      Symbol("/") → Divide,
       Symbol("<") → LowerThan,
       Symbol("=") → Equals,
       Symbol("and") → And,
