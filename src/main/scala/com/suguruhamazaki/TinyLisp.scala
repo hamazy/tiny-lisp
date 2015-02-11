@@ -13,6 +13,7 @@ object TinyLisp extends Parsers with FormEvaluator {
       Symbol("<") → LowerThan,
       Symbol("=") → Equals,
       Symbol("and") → And,
+      Symbol("or") → Or,
       Symbol("not") → Not,
       Symbol("lambda") → Lambda,
       Symbol("if") → If
