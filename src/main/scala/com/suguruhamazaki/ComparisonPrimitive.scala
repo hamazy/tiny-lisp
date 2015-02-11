@@ -3,12 +3,15 @@ package com.suguruhamazaki
 import scala.util.{ Failure, Success, Try }
 import scala.collection.immutable.{ Nil ⇒ Empty }
 
-trait BinaryNumericFunction extends Function {
+trait BinaryNumericFunction[T] extends Function {
+  def op(first: Int, second: Int): T
+  def op(first: Int, second: scala.Double): T
+  def op(first: scala.Double, second: Int): T
+  def op(first: scala.Double, second: scala.Double): T
+}
 
-  def op(first: Int, second: Int): Boolean
-  def op(first: Int, second: scala.Double): Boolean
-  def op(first: scala.Double, second: Int): Boolean
-  def op(first: scala.Double, second: scala.Double): Boolean
+trait BinaryNumericComparisonFunction extends BinaryNumericFunction[Boolean] {
+
   def apply(env: Map[Symbol, Form], args: Form*): Try[Form] = args match {
     case Integer(first) :: Integer(second) :: Empty if op(first, second) ⇒ Success(True)
     case Double(first) :: Double(second) :: Empty if op(first, second) ⇒ Success(True)
@@ -19,14 +22,14 @@ trait BinaryNumericFunction extends Function {
   }
 }
 
-object LowerThan extends BinaryNumericFunction {
+object LowerThan extends BinaryNumericComparisonFunction {
   def op(first: Int, second: Int): Boolean = first < second
   def op(first: Int, second: scala.Double): Boolean = first < second
   def op(first: scala.Double, second: Int): Boolean = first < second
   def op(first: scala.Double, second: scala.Double): Boolean = first < second
 }
 
-object Equals extends BinaryNumericFunction {
+object Equals extends BinaryNumericComparisonFunction {
   def op(first: Int, second: Int): Boolean = first == second
   def op(first: Int, second: scala.Double): Boolean = first == second
   def op(first: scala.Double, second: Int): Boolean = first == second
