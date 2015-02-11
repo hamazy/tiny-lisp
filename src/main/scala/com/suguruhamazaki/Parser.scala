@@ -12,7 +12,8 @@ trait Parsers extends JavaTokenParsers {
     Try(Integer(s.toInt)).getOrElse(Double(s.toDouble))
   }
   def boolean: Parser[Atom] = "nil" ^^ (_ ⇒ Nil) | "t" ^^ (_ ⇒ True)
-  def symbol: Parser[Symbol] = ident ^^ {
+  // any visible characters except for `(` and `)`.
+  def symbol: Parser[Symbol] = """([\p{Graph}&&[^()]])+""".r ^^ {
     case s ⇒ Symbol(s)
   }
 }
