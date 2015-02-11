@@ -8,17 +8,27 @@ trait Atom extends Form
 
 trait Number extends Atom
 
-case class Integer(value: Int) extends Number
+case class Integer(value: Int) extends Number {
+  override def toString(): String = value.toString
+}
 
-case class Double(value: scala.Double) extends Number
+case class Double(value: scala.Double) extends Number {
+  override def toString(): String = value.toString
+}
 
 case class Forms(forms: List[Form]) extends Form
 
-case class Symbol(value: String) extends Atom
+case class Symbol(value: String) extends Atom {
+  override def toString(): String = value
+}
 
-object Nil extends Atom
+object Nil extends Atom {
+  override def toString(): String = "nil"
+}
 
-object True extends Atom
+object True extends Atom {
+  override def toString(): String = "t"
+}
 
 abstract class Function extends Atom {
   /**
