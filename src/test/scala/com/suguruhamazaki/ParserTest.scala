@@ -88,8 +88,11 @@ class ParserTest extends FlatSpec with GivenWhenThen with Matchers with Parsers 
     Then("The corresponding Form is returned")
     actual.get should be(
       Forms(List(Symbol("foo"), Integer(123),
-        Forms(List(Symbol("bar"),
-          Forms(List(Symbol("buz"))))))))
+        Forms(List(
+          Symbol("bar"),
+          Forms(List(Symbol("buz")))
+        ))))
+    )
   }
 
 }
