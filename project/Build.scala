@@ -42,12 +42,11 @@ object TinyLispBuild extends Build {
   import BuildSettings.buildSettings
   import Dependencies.commonDeps
   import org.scalastyle.sbt.ScalastylePlugin.{ projectSettings ⇒ ScalastyleSettings }
-  import ScctPlugin.instrumentSettings
   import com.typesafe.sbt.SbtScalariform.scalariformSettings
 
   lazy val root = Project("tiny-lisp",
 			  file("."),
-                          settings = buildSettings ++ instrumentSettings ++ ScalastyleSettings ++ scalariformSettings) settings (
+                          settings = buildSettings ++ ScalastyleSettings ++ scalariformSettings) settings (
                     libraryDependencies ++= commonDeps,
                     testOptions in Test += Tests.Argument(TestFrameworks.ScalaTest, "-h", "target/report", "-o"))
 }
