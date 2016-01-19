@@ -1,0 +1,5 @@
+test:
+  override:
+    - sbt coverage test coverageReport
+  post:
+    - cp -r target/scala-2.11/scoverage-report $CIRCLE_ARTIFACTS
